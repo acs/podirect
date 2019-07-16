@@ -15,8 +15,21 @@ Including another URLconf
 """
 
 from django.urls import path
+from django.conf.urls import include, url
+from rest_framework import routers
+from .rest import SKUViewSet, BrandViewSet
+
 from . import views
 
 urlpatterns = [
     path('', views.index),
 ]
+
+#############
+# REST routes support
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'sku', SKUViewSet)
+router.register(r'brand', BrandViewSet)
+urlpatterns += [url(r'^api/', include(router.urls))]

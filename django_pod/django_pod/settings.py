@@ -56,6 +56,7 @@ ROOT_URLCONF = 'django_pod.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['django_pod/templates', 'pod/templates'],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {

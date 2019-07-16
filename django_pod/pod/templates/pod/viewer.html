@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POD Viewer</title>
+
+    <script lang="javascript">
+
+    </script>
+
+</head>
+<body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.min.js'></script>
+
+<h1>POD Viewer</h1>
+
+<div id="root"></div>
+
+<script id="rendered-js">
+const SKU = (props) =>
+    React.createElement("li", null, props.name, ":", props.brand);
+
+
+class SKUList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      skus: [] };
+
+  }
+  componentWillMount() {
+    fetch('http://localhost:8000/pod/api/sku/').
+    then(response => response.json()).
+    then(skus => {
+      skus.forEach(sku => {
+        let data = {
+          name: sku.name,
+          brand: sku.brand };
+
+        console.log(data);
+        this.setState({ skus: this.state.skus.concat([data]) });
+      });
+    });
+
+  }
+  render() {
+    if (this.state.skus.length > 0) {
+      return (
+        React.createElement("div", null,
+            this.state.skus.map(sku => React.createElement(SKU, {name: sku.name, brand: sku.brand }))));
+    }
+    return (
+      React.createElement("p", null, "Loading SKUs..."));
+
+  }}
+
+ReactDOM.render(
+    React.createElement(SKUList, null),
+    document.getElementById('root'),
+    null);
+    </script>
+
+</body>
+</html>
